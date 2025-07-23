@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=80", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flickr-grid-downloader"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [{ name = "Manuel Merino Ceballos", email = "sbmanolo@gmail.com" }]
+dependencies = [
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.4",
+    "ruff>=0.12.3",
+    "typer>=0.16.0",
+]
+
+
+[project.scripts]
+fgd = "flickr_grid_downloader.cli:app"
