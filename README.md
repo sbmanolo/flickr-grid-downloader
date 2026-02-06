@@ -145,6 +145,21 @@ outputs/
 
 ---
 
+## Important Limitations
+
+### Flickr API Pagination Limit
+
+Although Flickr's official API documentation primarily refers to rate limits (queries per hour), the `flickr.photos.search` endpoint is known to effectively **cap retrievable results to approximately 4,000 items per query** due to pagination constraints. This limitation is independent of the number of API requests and has been widely reported in previous studies and developer documentation.
+
+**Impact**: If a single grid cell contains more than ~4,000 photos, results may be truncated and some images will not be retrieved.
+
+**Solution**: Refine the spatial grid to smaller cell sizes (e.g., 100 × 100 m cells) to ensure no single cell exceeds this threshold. The tool will automatically warn you when a grid cell approaches or reaches this limit:
+- ⚠️ **Warning at 3,500+ photos**: Cell is approaching the limit
+- ⚠️ **Critical warning at 4,000+ photos**: Results are likely truncated
+
+
+---
+
 ## Examples
 
 ```bash
