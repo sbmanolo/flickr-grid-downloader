@@ -6,6 +6,7 @@ from typing import Sequence
 from flickr_grid_downloader.config import JobConfig
 from flickr_grid_downloader.utils.flickr_client import FlickrClient
 from flickr_grid_downloader.console import get_logger
+from flickr_grid_downloader.constants import FLICKR_PAGINATION_LIMIT, FLICKR_WARNING_THRESHOLD
 
 log = get_logger(__name__)
 
@@ -91,6 +92,20 @@ class ZoneDownloader:
                 had_errors = True
                 log.error("Error in grid %s page %s → %s", box_id, page, exc)
                 break # change this line for break the loop on error in case you want to raise an exception
+
+        # Check for potential truncation due to Flickr API pagination limits
+        if total >= FLICKR_PAGINATION_LIMIT:
+            log.warning(
+                "⚠️  Grid %s has reached or exceeded the Flickr API pagination limit (%d photos). "
+                "Results may be truncated. Consider refining the spatial grid to smaller cells.",
+                box_id, total
+            )
+        elif total >= FLICKR_WARNING_THRESHOLD:
+            log.warning(
+                "⚠️  Grid %s has %d photos, approaching the Flickr API limit (~4,000). "
+                "Consider monitoring this cell or refining the grid if more images are expected.",
+                box_id, total
+            )
 
         # Register the completion of the box
         self._append_row(self.done_csv, [box_id, str(total), str(had_errors)])

@@ -20,3 +20,11 @@ API_BASE_TEMPLATE = (
 )
 
 C_XX, C_YX, C_XY, C_YY = 1, 2, 5, 6
+
+# Flickr API pagination limit
+# The flickr.photos.search endpoint caps retrievable results to ~4,000 items per query
+# due to pagination constraints (independent of rate limits). This is a known limitation
+# documented in various studies. To avoid truncation, refine spatial grids to ensure
+# no single cell exceeds this threshold.
+FLICKR_PAGINATION_LIMIT = 4000
+FLICKR_WARNING_THRESHOLD = 3500  # Warn when approaching the limit
